@@ -7,21 +7,78 @@
     <title>matthew funk</title>
     <style>
         body{
-            background-color:#ca147ead ;
-            color: azure;
+            background-color:#1f2041 ;
+            color: #ffc857;
             font-family: 'Courier New', Courier, monospace;
         }
         nav{
-         background-color: cornflowerblue;   
+         background-color: rgb(75, 63, 114);   
         }
         a{
-            background-color: cornflowerblue;
+            background-color: #119da4;
         }
         article{
-            background-color: #ca147ead;
+            background-color: #19647e;
         }
         header{
-            background-color: skyblue;
+            background-color: #19647e;
+        }
+        /* Floating photo styles */
+        #photo-layer{
+            position:fixed;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            pointer-events:none; /* allow clicks through except images */
+            overflow:hidden;
+            z-index:9999;
+        }
+        .floating-photo{
+            position:absolute;
+            will-change:transform;
+            transform-origin:center center;
+            pointer-events:auto; /* images can receive clicks */
+            user-select:none;
+            touch-action:none;
+            transition:filter 0.2s;
+            filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+        }
+        #add-photo-btn{
+            margin-left:12px;
+            padding:6px 10px;
+            font-family:inherit;
+            cursor:pointer;
+        }
+        #party-btn{
+            margin-left:8px;
+            padding:6px 10px;
+            font-family:inherit;
+            cursor:pointer;
+            background: linear-gradient(90deg,#ff4b5c,#ffd166);
+            border: none;
+            color: #111;
+            border-radius:4px;
+        }
+
+        /* Full-screen strobe overlay */
+        #party-overlay{
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            z-index:10000;
+            background:transparent;
+            mix-blend-mode:screen;
+            opacity:0;
+            transition:opacity 0.08s linear, transform 0.15s linear;
+            transform-origin:center center;
+        }
+        #party-overlay.active{
+            opacity:1;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            #party-overlay{ display:none !important; }
         }
     </style>
 </head>
@@ -34,6 +91,12 @@
             <a href="game/index.html">game</a>
         </nav>
 
+        <button id="add-photo-btn">Add spinning photo</button>
+        <button id="party-btn">Party Mode</button>
+
+        <div id="photo-layer" aria-hidden="true"></div>
+        <div id="party-overlay" aria-hidden="true"></div>
+
 <article>
   <header>
 <h2>welcome to me website yo</h2>
@@ -42,6 +105,221 @@
   </header>
 <img src="ab67706c0000da8453a005ed652aeff0e5749ea4.jpg" alt="image(2)"> <img src="images (2).jpg" alt="ab67706c0000da8453a005ed652aeff0e5749ea4">
 <img src="200w.gif" alt="200w"> <img src="200w.gif" alt="200w" sizes="7" srcset="">
+<script>
+(function(){
+    const LAYER = document.getElementById('photo-layer');
+    const BTN = document.getElementById('add-photo-btn');
+    const IMG_SRC = 'qetjfruczyib1.jpg';
+    const GRAVITY = 300; // px/s^2 (reduced)
+    const FRICTION = 0.92; // stronger damping
+    const BOUNCE = 0.4; // softer bounces
+    const MAX_PHOTOS = 120;
+
+    let photos = [];
+
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+
+    function spawnPhoto(){
+        if(photos.length >= MAX_PHOTOS) return;
+        const img = new Image();
+        img.src = IMG_SRC;
+        img.className = 'floating-photo';
+        const size = Math.round(rand(48, 220));
+        img.style.width = size + 'px';
+        img.style.height = size + 'px';
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const x = rand(0, Math.max(0, vw - size));
+        const y = rand(0, Math.max(0, vh - size));
+        img.style.left = '0px';
+        img.style.top = '0px';
+        img.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(0deg)`;
+        img.dataset.x = x;
+        img.dataset.y = y;
+        img.dataset.vx = rand(-180, 180);
+        img.dataset.vy = rand(-120, 40);
+        img.dataset.rot = 0;
+        img.dataset.r = rand(-120, 120); // deg/sec (reduced)
+        img.style.opacity = '1';
+        // click to remove
+        img.addEventListener('click', ()=>{
+            img.style.transition = 'opacity 0.25s, transform 0.25s';
+            img.style.opacity = '0';
+            setTimeout(()=> removePhoto(obj), 260);
+        });
+
+        const obj = { el: img, w: size, h: size };
+        photos.push(obj);
+        LAYER.appendChild(img);
+    }
+
+    function removePhoto(obj){
+        const i = photos.indexOf(obj);
+        if(i !== -1) photos.splice(i,1);
+        if(obj.el && obj.el.parentNode) obj.el.parentNode.removeChild(obj.el);
+    }
+
+    let last = performance.now();
+    function update(now){
+        const dt = Math.min(0.033, (now - last)/1000);
+        last = now;
+        const vw = window.innerWidth, vh = window.innerHeight;
+        for(let i = photos.length - 1; i >= 0; i--){
+            const obj = photos[i];
+            const el = obj.el;
+            let x = parseFloat(el.dataset.x);
+            let y = parseFloat(el.dataset.y);
+            let vx = parseFloat(el.dataset.vx);
+            let vy = parseFloat(el.dataset.vy);
+            let rot = parseFloat(el.dataset.rot);
+            let r = parseFloat(el.dataset.r);
+
+            // if dragging, the pointermove handler manages position; skip physics
+            if(obj.dragging){
+                // keep rotation updating while dragging
+                rot += r * dt * 0.25;
+                el.dataset.rot = rot;
+                continue;
+            }
+
+            vy += GRAVITY * dt;
+            x += vx * dt;
+            y += vy * dt;
+            rot += r * dt;
+
+            // collisions with viewport
+            if(x < 0){ x = 0; vx = -vx * BOUNCE; }
+            if(x + obj.w > vw){ x = vw - obj.w; vx = -vx * BOUNCE; }
+            if(y + obj.h > vh){ y = vh - obj.h; vy = -vy * BOUNCE * 0.9; }
+            if(y < 0){ y = 0; vy = -vy * BOUNCE; }
+
+            vx *= FRICTION; vy *= FRICTION;
+
+            el.dataset.x = x; el.dataset.y = y; el.dataset.vx = vx; el.dataset.vy = vy; el.dataset.rot = rot;
+            el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) rotate(${rot}deg)`;
+
+            // cleanup: remove fully transparent images
+            if(el.style.opacity === '0'){
+                removePhoto(obj);
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+
+    // button spawns 1-4 images for extra flair
+    BTN.addEventListener('click', ()=>{
+        const count = Math.floor(rand(1,4));
+        for(let i=0;i<count;i++) spawnPhoto();
+    });
+
+    // optional: spawn one on double-click anywhere
+    window.addEventListener('dblclick', (e)=>{
+        spawnPhoto();
+    });
+
+    // --- Cursor swipe physics ---
+    // Track recent mouse movement and apply impulses to nearby photos
+    let pointerLastX = 0, pointerLastY = 0, pointerLastTime = 0;
+    function onPointerMove(e){
+        const now = performance.now();
+        if(!pointerLastTime){ pointerLastTime = now; pointerLastX = e.clientX; pointerLastY = e.clientY; return; }
+        const dt = Math.max(1, now - pointerLastTime); // ms
+        const mvx = (e.clientX - pointerLastX) / dt * 1000; // px/s
+        const mvy = (e.clientY - pointerLastY) / dt * 1000;
+        pointerLastTime = now; pointerLastX = e.clientX; pointerLastY = e.clientY;
+
+        // influence parameters
+        const BASE_RADIUS = 140; // px
+        const STRENGTH = 0.0006; // reduced impulse strength
+
+        for(let i = 0; i < photos.length; i++){
+            const obj = photos[i];
+            const el = obj.el;
+            // center of photo
+            const cx = parseFloat(el.dataset.x) + obj.w/2;
+            const cy = parseFloat(el.dataset.y) + obj.h/2;
+            const dx = cx - e.clientX;
+            const dy = cy - e.clientY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            const radius = BASE_RADIUS + Math.min(160, obj.w);
+            if(dist > radius) continue;
+            // influence falls off with distance
+            const influence = (1 - (dist / radius));
+            // apply impulse proportional to pointer velocity and influence
+            const curVx = parseFloat(el.dataset.vx);
+            const curVy = parseFloat(el.dataset.vy);
+            const impulseX = mvx * STRENGTH * influence * (8 + obj.w/30);
+            const impulseY = mvy * STRENGTH * influence * (8 + obj.w/30);
+            el.dataset.vx = String(curVx + impulseX * 120);
+            el.dataset.vy = String(curVy + impulseY * 120 - Math.abs(influence)*40);
+            // add some spin from lateral movement (reduced)
+            el.dataset.r = String(parseFloat(el.dataset.r) + mvx * 0.006 * influence);
+            // small visual highlight to show interaction
+            el.style.filter = 'drop-shadow(0 10px 12px rgba(0,0,0,0.5)) saturate(1.1)';
+            setTimeout(()=>{ if(el) el.style.filter = 'drop-shadow(0 6px 8px rgba(0,0,0,0.35))'; }, 120);
+        }
+    }
+
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+
+})();
+</script>
+
+<script>
+// Party mode: strobe overlay controlled by `#party-btn`
+(function(){
+    const partyBtn = document.getElementById('party-btn');
+    const overlay = document.getElementById('party-overlay');
+    let partyOn = false;
+    let strobeTimer = null;
+
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+
+    function startParty(){
+        if(partyOn) return; partyOn = true;
+        partyBtn.textContent = 'Stop Party';
+        overlay.classList.add('active');
+        // Fast strobe (~10-14 FPS). Respect reduced-motion.
+        const fps = 12; // target
+        const interval = Math.round(1000 / fps);
+        strobeTimer = setInterval(()=>{
+            const hue = Math.floor(rand(0,360));
+            const c1 = `hsla(${hue},100%,55%,0.95)`;
+            const c2 = `hsla(${(hue+60)%360},100%,55%,0.85)`;
+            const posX = Math.round(rand(10,90));
+            const posY = Math.round(rand(10,90));
+            overlay.style.background = `radial-gradient(circle at ${posX}% ${posY}%, ${c1} 0%, ${c2} 40%, transparent 60%)`;
+            overlay.style.opacity = (rand(0.35,0.9)).toFixed(2);
+            overlay.style.transform = `scale(${(1 + rand(-0.02,0.06)).toFixed(3)})`;
+        }, interval);
+    }
+
+    function stopParty(){
+        if(!partyOn) return; partyOn = false;
+        partyBtn.textContent = 'Party Mode';
+        overlay.classList.remove('active');
+        clearInterval(strobeTimer); strobeTimer = null;
+        overlay.style.background = 'transparent';
+        overlay.style.opacity = '0';
+        overlay.style.transform = 'none';
+    }
+
+    partyBtn.addEventListener('click', ()=>{ partyOn ? stopParty() : startParty(); });
+
+    // keyboard quick-toggle: P key
+    window.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase() === 'p') partyBtn.click(); });
+
+    // Respect prefers-reduced-motion by disabling the strobe automatically
+    try{
+        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if(mq && mq.matches){ overlay.style.display = 'none'; partyBtn.disabled = true; partyBtn.title = 'Disabled: prefers-reduced-motion'; }
+    }catch(e){}
+
+})();
+</script>
+
 </body>
 
 </html>
