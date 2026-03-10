@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex boxes</title>
+    <style>
+        p img {
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+        .parent{
+            display: flex;
+        width: 50%;
+        flex-wrap: wrap;
+        border: 2px solid black;
+        justify-content: flex-start;
+        }
+        .parent img{
+            width: 100px;
+        }
+        .child{
+            width: 200px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="parent">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt=""style="flex: grow 2;">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+    <img src="fancy-c.jpg" alt="">
+</div>
+    <div class="parent">
+        <div class="child">
+            <p>
+                <img src="fancy-c.jpg" alt="">omputers are so tuff i love them i put linux on a imac recently and i had
+                to
+                replace hdd cause it was failing. nonsense incoming. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                molestie quam vel dui euismod, quis interdum enim convallis. Nullam luctus magna sed sagittis pulvinar.
+                Aenean et lacus pulvinar elit varius hendrerit dignissim ut urna. Donec mi nisl, pellentesque a dapibus
+                quis, facilisis quis erat. Praesent venenatis mauris ipsum, sed condimentum neque convallis sit amet.
+                Mauris
+                dolor felis, lobortis ut auctor quis, rhoncus vitae tellus. Sed quis varius ligula. Fusce ac leo sit
+                amet
+                metus ultrices faucibus sit amet eu erat.
+
+                Aenean sapien felis, pulvinar vitae vulputate at, malesuada quis ex. Mauris ut tortor maximus,
+                consectetur
+                lacus in, commodo metus. Pellentesque sodales congue justo, id laoreet lectus accumsan et. Ut suscipit
+                ut
+                libero eu convallis. Sed est neque, fringilla ut blandit in, blandit non erat. Maecenas non quam eget
+                tortor
+                dictum interdum. Mauris et dui bibendum, pellentesque odio ut, blandit purus. Maecenas nec dapibus diam.
+                Nullam ultrices porttitor ligula nec sollicitudin. Vestibulum non nulla ut neque mollis volutpat. Nam
+                leo
+                nisi, rhoncus sed augue vitae, consequat convallis tortor. Proin rhoncus egestas purus ut varius.
+                Vivamus
+                tristique nisi sed sapien cursus, non mattis magna pulvinar. Sed efficitur dapibus dolor a molestie.
+                Nunc
+                tempor sagittis vestibulum.
+
+                Morbi id dapibus leo. Ut bibendum enim tortor, vel vestibulum elit efficitur ut. Morbi hendrerit
+                vestibulum
+                dolor, eu maximus massa dignissim ac. In eros neque, tincidunt eu odio vitae, tempus bibendum lorem. Sed
+                euismod velit sit amet ligula blandit, quis pellentesque arcu sagittis. Cras mattis luctus dapibus. Sed
+                feugiat ut justo non gravida.
+
+                Quisque vel lectus varius, porta nisl eget, aliquet mi. Proin aliquam eu ante at viverra. Maecenas
+                commodo
+                gravida quam, a aliquam urna maximus sit amet. Morbi fermentum orci vel felis hendrerit consequat. Donec
+                hendrerit id lorem ut rutrum. Donec cursus lacus arcu, eget luctus lorem tincidunt vitae. Vestibulum
+                rhoncus
+                molestie ligula quis faucibus.
+
+                Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus mattis
+                mauris
+                eu lorem placerat, eget facilisis elit ultricies. Mauris malesuada sagittis nunc, eleifend faucibus
+                purus
+                viverra ornare. Sed hendrerit tellus id varius faucibus. Suspendisse mauris ex, placerat sed mattis
+                iaculis,
+                elementum in mauris. Cras bibendum posuere nunc, in viverra urna sollicitudin ut. Aliquam porttitor non
+                dui
+                nec feugiat. Suspendisse eleifend, nunc sit amet tempor dictum, risus metus mattis eros, id maximus
+                sapien
+                metus sit amet nisl. Vivamus vel risus efficitur, auctor lectus ac, efficitur libero. Curabitur
+                efficitur
+                diam vel enim commodo rutrum. Fusce dictum lobortis urna id imperdiet. Ut molestie consequat risus, id
+                pretium sem porta convallis. Nam ultricies quam at lorem sodales tempus.
+            </p>
+        </div>
+        <div class="child">
+        <p>
+            <img src="fancy-c.jpg" alt="">omputers are so tuff i love them i put linux on a imac recently and i had to
+            replace hdd. nonsense incoming. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            molestie quam vel dui euismod, quis interdum enim convallis. Nullam luctus magna sed sagittis pulvinar.
+            Aenean et lacus pulvinar elit varius hendrerit dignissim ut urna. Donec mi nisl, pellentesque a dapibus
+            quis, facilisis quis erat. Praesent venenatis mauris ipsum, sed condimentum neque convallis sit amet. Mauris
+            dolor felis, lobortis ut auctor quis, rhoncus vitae tellus. Sed quis varius ligula. Fusce ac leo sit amet
+            metus ultrices faucibus sit amet eu erat.
+
+            Aenean sapien felis, pulvinar vitae vulputate at, malesuada quis ex. Mauris ut tortor maximus, consectetur
+            lacus in, commodo metus. Pellentesque sodales congue justo, id laoreet lectus accumsan et. Ut suscipit ut
+            libero eu convallis. Sed est neque, fringilla ut blandit in, blandit non erat. Maecenas non quam eget tortor
+            dictum interdum. Mauris et dui bibendum, pellentesque odio ut, blandit purus. Maecenas nec dapibus diam.
+            Nullam ultrices porttitor ligula nec sollicitudin. Vestibulum non nulla ut neque mollis volutpat. Nam leo
+            nisi, rhoncus sed augue vitae, consequat convallis tortor. Proin rhoncus egestas purus ut varius. Vivamus
+            tristique nisi sed sapien cursus, non mattis magna pulvinar. Sed efficitur dapibus dolor a molestie. Nunc
+            tempor sagittis vestibulum.
+
+            Morbi id dapibus leo. Ut bibendum enim tortor, vel vestibulum elit efficitur ut. Morbi hendrerit vestibulum
+            dolor, eu maximus massa dignissim ac. In eros neque, tincidunt eu odio vitae, tempus bibendum lorem. Sed
+            euismod velit sit amet ligula blandit, quis pellentesque arcu sagittis. Cras mattis luctus dapibus. Sed
+            feugiat ut justo non gravida.
+
+            Quisque vel lectus varius, porta nisl eget, aliquet mi. Proin aliquam eu ante at viverra. Maecenas commodo
+            gravida quam, a aliquam urna maximus sit amet. Morbi fermentum orci vel felis hendrerit consequat. Donec
+            hendrerit id lorem ut rutrum. Donec cursus lacus arcu, eget luctus lorem tincidunt vitae. Vestibulum rhoncus
+            molestie ligula quis faucibus.
+
+            Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus mattis mauris
+            eu lorem placerat, eget facilisis elit ultricies. Mauris malesuada sagittis nunc, eleifend faucibus purus
+            viverra ornare. Sed hendrerit tellus id varius faucibus. Suspendisse mauris ex, placerat sed mattis iaculis,
+            elementum in mauris. Cras bibendum posuere nunc, in viverra urna sollicitudin ut. Aliquam porttitor non dui
+            nec feugiat. Suspendisse eleifend, nunc sit amet tempor dictum, risus metus mattis eros, id maximus sapien
+            metus sit amet nisl. Vivamus vel risus efficitur, auctor lectus ac, efficitur libero. Curabitur efficitur
+            diam vel enim commodo rutrum. Fusce dictum lobortis urna id imperdiet. Ut molestie consequat risus, id
+            pretium sem porta convallis. Nam ultricies quam at lorem sodales tempus.
+        </p>
+    </div>
+    <div class="child">
+    <p>
+        <img src="fancy-c.jpg" alt="">omputers are so tuff i love them i put linux on a imac recently and i had to
+        replace hdd. nonsense incoming. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+        molestie quam vel dui euismod, quis interdum enim convallis. Nullam luctus magna sed sagittis pulvinar.
+        Aenean et lacus pulvinar elit varius hendrerit dignissim ut urna. Donec mi nisl, pellentesque a dapibus
+        quis, facilisis quis erat. Praesent venenatis mauris ipsum, sed condimentum neque convallis sit amet. Mauris
+        dolor felis, lobortis ut auctor quis, rhoncus vitae tellus. Sed quis varius ligula. Fusce ac leo sit amet
+        metus ultrices faucibus sit amet eu erat.
+
+        Aenean sapien felis, pulvinar vitae vulputate at, malesuada quis ex. Mauris ut tortor maximus, consectetur
+        lacus in, commodo metus. Pellentesque sodales congue justo, id laoreet lectus accumsan et. Ut suscipit ut
+        libero eu convallis. Sed est neque, fringilla ut blandit in, blandit non erat. Maecenas non quam eget tortor
+        dictum interdum. Mauris et dui bibendum, pellentesque odio ut, blandit purus. Maecenas nec dapibus diam.
+        Nullam ultrices porttitor ligula nec sollicitudin. Vestibulum non nulla ut neque mollis volutpat. Nam leo
+        nisi, rhoncus sed augue vitae, consequat convallis tortor. Proin rhoncus egestas purus ut varius. Vivamus
+        tristique nisi sed sapien cursus, non mattis magna pulvinar. Sed efficitur dapibus dolor a molestie. Nunc
+        tempor sagittis vestibulum.
+
+        Morbi id dapibus leo. Ut bibendum enim tortor, vel vestibulum elit efficitur ut. Morbi hendrerit vestibulum
+        dolor, eu maximus massa dignissim ac. In eros neque, tincidunt eu odio vitae, tempus bibendum lorem. Sed
+        euismod velit sit amet ligula blandit, quis pellentesque arcu sagittis. Cras mattis luctus dapibus. Sed
+        feugiat ut justo non gravida.
+
+        Quisque vel lectus varius, porta nisl eget, aliquet mi. Proin aliquam eu ante at viverra. Maecenas commodo
+        gravida quam, a aliquam urna maximus sit amet. Morbi fermentum orci vel felis hendrerit consequat. Donec
+        hendrerit id lorem ut rutrum. Donec cursus lacus arcu, eget luctus lorem tincidunt vitae. Vestibulum rhoncus
+        molestie ligula quis faucibus.
+
+        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus mattis mauris
+        eu lorem placerat, eget facilisis elit ultricies. Mauris malesuada sagittis nunc, eleifend faucibus purus
+        viverra ornare. Sed hendrerit tellus id varius faucibus. Suspendisse mauris ex, placerat sed mattis iaculis,
+        elementum in mauris. Cras bibendum posuere nunc, in viverra urna sollicitudin ut. Aliquam porttitor non dui
+        nec feugiat. Suspendisse eleifend, nunc sit amet tempor dictum, risus metus mattis eros, id maximus sapien
+        metus sit amet nisl. Vivamus vel risus efficitur, auctor lectus ac, efficitur libero. Curabitur efficitur
+        diam vel enim commodo rutrum. Fusce dictum lobortis urna id imperdiet. Ut molestie consequat risus, id
+        pretium sem porta convallis. Nam ultricies quam at lorem sodales tempus.
+    </p>
+    </div>
+    </div>
+</body>
+
+</html>

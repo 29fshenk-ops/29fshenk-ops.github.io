@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript test</title>
+</head>
+
+<body>
+    <img src="cookie.jpg" width=200 onclick="addscore()">
+    <div id="scorebox">0</div>
+    <button onclick="byMULTI()">buy upgrade</button>
+    <button onclick="buyAutocLICK()">buy auto</button>
+
+</html>
+<script>
+    var name = prompt("what is your name?");
+    name = name.toLowerCase()
+    if (name == "epstein") {
+        document.write("you are a terrorist")
+    } else {
+        document.write("hello," + name + "!")
+    }
+
+    var score = 0;
+    var multiplier = 1.0;
+    var autoclickanount = 0;
+
+
+    function addscore() {
+        score = score + multiplier;
+        var scorebox = document.getElementById("scorebox")
+        scorebox.innerHTML = score;
+    }
+    function byMULTI() {
+        if (score >= (multiplier * 10)) {
+            score = score - (multiplier * 10)
+            multiplier = multiplier + 0.1;
+            scorebox.innerHTML = score;
+        }
+    }
+
+    function buyAutocLICK() {
+        if (autoclickanount == 0) {
+            autoclickanount = 1;
+            setInterval(
+                () => {
+                    score = score + autoclickanount;
+                    scoreBox.innerHTML = score
+                },
+                1000
+            )
+        }
+        else {
+            autoclickamount = autoclickanount + 1;
+            score = score - (autoclickamount * 15)
+        }
+
+    }
+</script>
+</body>
+
+</html>

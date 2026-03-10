@@ -21,11 +21,14 @@
 
         #navbar {
             background-color: rgba(127, 255, 212, 0.575);
+            margin: 2px;
         }
 
         .navlink {
             background-color: lightgray;
-            display: inline;
+            justify-content: center;
+            display: flex;
+            align-items: center;
         }
 
         .article {
@@ -49,6 +52,22 @@
             padding: 10px;
             border: 1px solid black;
         }
+
+        body {
+            height: 100vh;
+            cursor: crosshair;
+        }
+
+        .spawned-photo {
+            position: absolute;
+            width: 100px;
+            /* Adjust size */
+            height: auto;
+            pointer-events: none;
+            /* Allows clicking through it */
+            transform: translate(-50%, -50%);
+            /* Center on cursor */
+        }
     </style>
 </head>
 
@@ -62,13 +81,9 @@
     </nav>
     <div id="siteContent">
         <div id="header">boxes in boxes</div>
-        <div id="navbar">
-            <div class="navlink"><a
-                    href="https://www.youtube.com/watch?v=EVJHyigQ3r4&list=RDEVJHyigQ3r4&start_radio=1">link</a></div>
-            <div class="navlink"><a
-                    href="https://www.youtube.com/watch?v=CL8AGNE3ajA&list=RDCL8AGNE3ajA&start_radio=1">Link</a></div>
-            <div class="navlink"><a
-                    href="https://www.youtube.com/watch?v=pV67tv8DvHA&list=RDpV67tv8DvHA&start_radio=1">Link</a></div>
+        <div class="navlink"> <a href="https://www.youtube.com/watch?v=EVJHyigQ3r4&list=RDEVJHyigQ3r4&start_radio=1">link</a></div>
+            <div class="navlink"><a href="https://www.youtube.com/watch?v=CL8AGNE3ajA&list=RDCL8AGNE3ajA&start_radio=1">Link</a></div> 
+            <div class="navlink"><a href="https://www.youtube.com/watch?v=pV67tv8DvHA&list=RDpV67tv8DvHA&start_radio=1">Link</a></div>
         </div>
         <div class="article">
             <div class="articleHeader">
@@ -92,41 +107,18 @@
                         </div>
                     </div>
 
-                    <html>
+                    <img src="dog.jpg" alt="dog.jpg" height="288" srcset=""><img src="tacosrain.jpg" alt="tacosrain.jpg"
+                        height="288" srcset="">
 
-                    <head>
-                        <style>
-                            body {
-                                height: 100vh;
-                                cursor: crosshair;
-                            }
+</body>
 
-                            .spawned-photo {
-                                position: absolute;
-                                width: 100px;
-                                /* Adjust size */
-                                height: auto;
-                                pointer-events: none;
-                                /* Allows clicking through it */
-                                transform: translate(-50%, -50%);
-                                /* Center on cursor */
-                            }
-                        </style>
-                    </head>
-
-                    <body>
-
-                        <script>
-                            document.addEventListener('click', function (e) {
-                                const img = document.createElement('img');
-                                img.src = 'hitscan.png'; // Path to your photo
-                                img.className = 'spawned-photo';
-                                img.style.left = e.clientX + 'px';
-                                img.style.top = e.clientY + 'px';
-                                document.body.appendChild(img);
-                            });
-                        </script>
-
-
-                    </body>
-                    <img src="dog.jpg" alt="dog.jpg" height="288" srcset=""><img src="tacosrain.jpg" alt="tacosrain.jpg" height="288" srcset="">
+<script>
+    document.addEventListener('click', function (e) {
+        const img = document.createElement('img');
+        img.src = 'hitscan.png'; // Path to your photo
+        img.className = 'spawned-photo';
+        img.style.left = e.clientX + 'px';
+        img.style.top = e.clientY + 'px';
+        document.body.appendChild(img);
+    });
+</script>
