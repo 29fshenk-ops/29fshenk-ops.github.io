@@ -4,61 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>javascript test</title>
+    <title>diddy clicker</title>
+    <style>
+        body {
+            background-color: rgb(117, 117, 214);
+        }
+        
+        img {
+            border-radius: 10px;
+        }
+    </style>
+
 </head>
 
 <body>
-    <img src="cookie.jpg" width=200 onclick="addscore()">
-    <div id="scorebox">0</div>
-    <button onclick="byMULTI()">buy upgrade</button>
-    <button onclick="buyAutocLICK()">buy auto</button>
-
-</html>
+    <img src="cookie.jpg" width=200 onclick="addScore()">
+    <div id="scoreBox">0</div>
+    <div id="multiplyButton"><button onclick="buyMulti()" id="multiplyBtn">Buy Upgrade</button></div>
+    <div id="autoButton"><button onclick="buyAutoClick()" id="autoBtn">Buy Autoclick</button></div>
+</body>
 <script>
-    var name = prompt("what is your name?");
+    let name = prompt("What is your name?");
     name = name.toLowerCase()
-    if (name == "epstein") {
-        document.write("you are a terrorist")
+    if (name == "osama bin laden") {
+        document.write("terrorist.");
     } else {
-        document.write("hello," + name + "!")
+        document.write("Hello, " + name + "!");
     }
 
     var score = 0;
     var multiplier = 1.0;
-    var autoclickanount = 0;
+    var autoClickAmount = 0;
+    var scoreBox = document.getElementById("scoreBox");
+    var autoButton = document.getElementById("autoButton")
+    var multiplyButton = document.getElementById("multiplyBtn");
+    var autoButton = document.getElementById("autoBtn");
 
-
-    function addscore() {
-        score = score + multiplier;
-        var scorebox = document.getElementById("scorebox")
-        scorebox.innerHTML = score;
+    function updatePrices() {
+        multiplyButton.innerHTML = "Buy Upgrade (" + (multiplier * 10) + ")";
+        autoButton.innerHTML = "Buy Autoclick (" + (autoClickAmount === 0 ? 1 : autoClickAmount * 10) + ")";
     }
-    function byMULTI() {
+
+    function addScore() {
+        score = score + multiplier;
+        scoreBox.innerHTML = score;
+    }
+
+    function buyMulti() {
         if (score >= (multiplier * 10)) {
             score = score - (multiplier * 10)
-            multiplier = multiplier + 0.1;
-            scorebox.innerHTML = score;
+            multiplier = multiplier + 0.5;
+            scoreBox.innerHTML = score;
+            updatePrices();
         }
     }
 
-    function buyAutocLICK() {
-        if (autoclickanount == 0) {
-            autoclickanount = 1;
+    function buyAutoClick() {
+        if (autoClickAmount == 0) {
+            autoClickAmount = 1;
             setInterval(
                 () => {
-                    score = score + autoclickanount;
-                    scoreBox.innerHTML = score
+                    score = score + autoClickAmount
+                    scoreBox.innerHTML = score;
                 },
                 1000
             )
-        }
-        else {
-            autoclickamount = autoclickanount + 1;
-            score = score - (autoclickamount * 15)
-        }
-
+            updatePrices();
+        } else if (score >= (autoClickAmount * 10)) {
+                score = score - (autoClickAmount * 10)
+            autoClickAmount = autoClickAmount + 1;
+            scoreBox.innerHTML = score;
+            updatePrices();
+            }
     }
+
+    updatePrices();
 </script>
-</body>
 
 </html>
